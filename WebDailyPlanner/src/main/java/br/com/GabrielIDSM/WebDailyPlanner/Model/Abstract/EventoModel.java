@@ -8,7 +8,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -17,7 +16,6 @@ public abstract class EventoModel implements Serializable{
     
     @Id
     Integer ID;
-    @NotEmpty
     Integer usuario;
     String descricao;
     @Temporal(TemporalType.DATE)
