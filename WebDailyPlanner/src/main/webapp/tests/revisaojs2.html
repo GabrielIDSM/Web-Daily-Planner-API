@@ -1,0 +1,38 @@
+<html>
+<head>
+	<script>
+		//Objetos
+		var pessoa = {
+			nome: "Gabriel",
+			idade: 20,
+			dizerOla: function(mensagem, saida){ //Funçao anonima
+				saida(mensagem);
+			}
+		}
+		pessoa.dizerOla("Olá do Callback", function(msg) {
+				window.alert(msg);
+		});
+
+		//Classes
+		function Pessoa(nome, idade){
+			this.nome = nome;
+			this.idade = idade;
+			this.dizerAdeus = function(){
+				window.alert("Adeus");
+			}
+		}
+		//Métodos
+		Pessoa.prototype.dizerOla = function() {
+			window.alert("Olá");
+		};
+
+		var p1 = new Pessoa("Gabriel", 20);
+		console.log(p1.nome);
+		console.log(p1.idade);
+		p1.dizerOla();
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
