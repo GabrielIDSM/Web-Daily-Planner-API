@@ -2,6 +2,7 @@ package br.com.GabrielIDSM.WebDailyPlanner.Controller;
 
 import br.com.GabrielIDSM.WebDailyPlanner.Model.UsuarioModel;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.UsuarioRepository;
+import br.com.GabrielIDSM.WebDailyPlanner.RequestModel.IdentificacaoRequestModel;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
@@ -42,7 +43,28 @@ public class UsuarioController {
         for(UsuarioModel u: usuarios){
             if(Objects.equals(u.getID(), ID)) return new ResponseEntity<>(u, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
+    //Verificar se um usuario existe no Banco de Dados
+    @PostMapping(path = "/login")
+    public ResponseEntity<?> getLogin(@Valid @RequestBody IdentificacaoRequestModel usuario){
+        if(!usuarioESenhaExistem(usuario)) return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    
+    private boolean usuarioESenhaExistem(IdentificacaoRequestModel usuario) {
+        try {
+            List<UsuarioModel> usuarios = (List<UsuarioModel>) repository.findAll();
+            for (UsuarioModel u : usuarios) {
+                if (Objects.equals(u.getID(), usuario.getId())
+                        && Objects.equals(u.getSenha(), usuario.getSenha())) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

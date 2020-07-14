@@ -7,6 +7,7 @@ public class DiaRequestModel implements Serializable{
     //Atributos
     
     private Integer usuario;
+    private String senha;
     private Date dia;
     
     //Getters e Setters
@@ -19,6 +20,14 @@ public class DiaRequestModel implements Serializable{
         this.usuario = usuario;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+    
     public Date getDia() {
         return dia;
     }

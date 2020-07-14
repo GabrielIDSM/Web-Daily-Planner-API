@@ -1,0 +1,11 @@
+<div ng-controller="usuarioController">  
+    <h3>Login</h3>
+    ID: <input type="text" id="txtNomeLogin" value="" ng-model="usuarioLogin.id"/> <br/>
+    Senha: <input type="text" id="txtSenhaLogin" value="" ng-model="usuarioLogin.senha"/> <br/>
+    <input type="button" value="Login" ng-click="verificaUsuario()"/>
+    <br/>
+    <h3>Cadastrar Usuario</h3>
+    Nome: <input type="text" id="txtNome" value="" ng-model="usuarioCad.nome"/> <br/>
+    Senha: <input type="text" id="txtSenha" value="" ng-model="usuarioCad.senha"/> <br/>
+    <input type="button" value="Cadastrar" ng-click="cadastraNovoUsuario()"/>
+</div>
