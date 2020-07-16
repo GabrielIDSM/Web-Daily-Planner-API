@@ -76,8 +76,12 @@ public class DiaController {
     
     private boolean usuarioESenhaExistem(IdentificacaoRequestModel usuario) {
         try {
+            System.out.println("Usuario.id: " + usuario.getId());
+            System.out.println("Usuario.senha: " + usuario.getSenha());
             List<UsuarioModel> usuarios = (List<UsuarioModel>) UsuarioRepository.findAll();
             for (UsuarioModel u : usuarios) {
+                System.out.println("u.id: " + u.getID());
+                System.out.println("u.senha: " + u.getSenha());
                 if (Objects.equals(u.getID(), usuario.getId())
                         && Objects.equals(u.getSenha(), usuario.getSenha())) {
                     return true;

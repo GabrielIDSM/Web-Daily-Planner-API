@@ -1,3 +1,3 @@
-webdailyplanner.controller("eventoGenericoController", function ($scope, $http){
+webdailyplanner.controller("eventoController", function ($scope, $http){
     
 });

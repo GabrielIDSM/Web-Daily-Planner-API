@@ -1,6 +1,6 @@
-webdailyplanner.controller("usuarioController", function ($scope, $http) {
+webdailyplanner.controller("usuarioController", function ($scope, $rootScope, $http, $location) {
     $scope.usuarioCad = {};
-    $scope.usuarioLogin = {};
+    $rootScope.usuarioLogin = {};
     $scope.cadastraNovoUsuario = function  (){
         $http({method: 'POST', url: 'http://localhost:8080/usuarios', data:$scope.usuarioCad}).then(function (response) {
             console.log(response.status);
@@ -9,8 +9,8 @@ webdailyplanner.controller("usuarioController", function ($scope, $http) {
         });
     };
     $scope.verificaUsuario = function  (){
-        $http({method: 'POST', url: 'http://localhost:8080/usuarios/login', data:$scope.usuarioLogin}).then(function (response) {
-            console.log(response.status);
+        $http({method: 'POST', url: 'http://localhost:8080/usuarios/login', data:$rootScope.usuarioLogin}).then(function (response) {
+            $location.path('/calendario');
         }, function (response) {
             console.log(response.status);
         });
