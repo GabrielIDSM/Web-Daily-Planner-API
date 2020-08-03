@@ -7,6 +7,7 @@ public abstract class EventRequestModel {
     private Integer ID;
     private String email;
     private String password;
+    private String title;
     private String Details;
     private Date DateOfTheDay;
 
@@ -32,6 +33,14 @@ public abstract class EventRequestModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDetails() {

@@ -12,6 +12,20 @@ public abstract class Users {
     
     private final static BCryptPasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
     
+    public static boolean isUserWithEncoder(UserModel usuario, List<UserModel> usuarios) {
+        try {
+            for (UserModel u : usuarios) {
+                if (Objects.equals(u.getEmail(), usuario.getEmail())
+                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(usuario.getPassword()))) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     public static boolean isUserWithEncoder(IdRequestModel usuario, List<UserModel> usuarios) {
         try {
             for (UserModel u : usuarios) {

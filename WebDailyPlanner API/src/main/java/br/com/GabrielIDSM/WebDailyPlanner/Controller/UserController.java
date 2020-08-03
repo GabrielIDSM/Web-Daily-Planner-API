@@ -27,6 +27,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<?> Save(@Valid @RequestBody UserModel user){
+        if(Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         user = Users.newUser(user);
         repository.save(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -34,7 +35,7 @@ public class UserController {
 
     @PostMapping(path = "login")
     public ResponseEntity<?> isUser (@Valid @RequestBody IdRequestModel user){
-        if(!Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) return new ResponseEntity<>(HttpStatus.OK);
+        if(Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) return new ResponseEntity<>(HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     

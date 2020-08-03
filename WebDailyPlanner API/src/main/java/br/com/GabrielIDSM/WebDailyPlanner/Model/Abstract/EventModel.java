@@ -24,6 +24,8 @@ public abstract class EventModel implements Serializable{
     @ManyToOne
     UserModel user;
     @NotEmpty
+    String title;
+    @NotEmpty
     String Details;
     @Temporal(TemporalType.DATE)
     Date DateOfTheDay;
@@ -34,6 +36,14 @@ public abstract class EventModel implements Serializable{
 
     public void setID(Integer ID) {
         this.ID = ID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDetails() {
