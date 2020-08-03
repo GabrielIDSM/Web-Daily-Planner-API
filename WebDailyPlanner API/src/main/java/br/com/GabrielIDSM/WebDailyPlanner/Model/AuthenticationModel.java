@@ -3,10 +3,12 @@ package br.com.GabrielIDSM.WebDailyPlanner.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.dom4j.tree.AbstractEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
+@Table(name = "WDP_Authentication")
 public class AuthenticationModel extends AbstractEntity {
     //Atributos
     

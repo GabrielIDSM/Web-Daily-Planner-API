@@ -1,45 +1,45 @@
 package br.com.GabrielIDSM.WebDailyPlanner.LogicalTier;
 
-import br.com.GabrielIDSM.WebDailyPlanner.ResponseModel.CalendarioResponseModel;
+import br.com.GabrielIDSM.WebDailyPlanner.ResponseModel.CalendaryResponseModel;
 import java.util.Calendar;
 
-public abstract class CalendarioLogicalTier {
+public abstract class CalendaryLogicalTier {
 
-    public static CalendarioResponseModel DefinePrimeiroMes() {
-        CalendarioResponseModel pm = new CalendarioResponseModel();
+    public static CalendaryResponseModel defineFirstMonth() {
+        CalendaryResponseModel pm = new CalendaryResponseModel();
         Calendar c = Calendar.getInstance();
-        pm.setMes(c.get(Calendar.MONTH));
-        pm.setAno(c.get(Calendar.YEAR));
-        pm.setnDeDias(NumeroDeDias(c));
+        pm.setMonth(c.get(Calendar.MONTH));
+        pm.setYear(c.get(Calendar.YEAR));
+        pm.setDays(DayCounter(c));
         return pm;
     }
     
-    public static CalendarioResponseModel DefineProximoMes(Integer mes, Integer ano){
-        CalendarioResponseModel pm = new CalendarioResponseModel();
+    public static CalendaryResponseModel defineNextMonth(Integer month, Integer year){
+        CalendaryResponseModel pm = new CalendaryResponseModel();
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.MONTH, mes);
-        c.set(Calendar.YEAR, ano);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.YEAR, year);
         c.add(Calendar.MONTH, 1);
-        pm.setMes(c.get(Calendar.DAY_OF_MONTH));
-        pm.setAno(c.get(Calendar.YEAR));
-        pm.setnDeDias(NumeroDeDias(c));
+        pm.setMonth(c.get(Calendar.DAY_OF_MONTH));
+        pm.setYear(c.get(Calendar.YEAR));
+        pm.setDays(DayCounter(c));
         return pm;
     }
     
-    public static CalendarioResponseModel DefineMesAnterior(Integer mes, Integer ano){
-        CalendarioResponseModel pm = new CalendarioResponseModel();
+    public static CalendaryResponseModel definePreviousMonth(Integer month, Integer year){
+        CalendaryResponseModel pm = new CalendaryResponseModel();
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.MONTH, mes);
-        c.set(Calendar.YEAR, ano);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.YEAR, year);
         c.add(Calendar.MONTH, -1);
-        pm.setMes(c.get(Calendar.DAY_OF_MONTH));
-        pm.setAno(c.get(Calendar.YEAR));
-        pm.setnDeDias(NumeroDeDias(c));
+        pm.setMonth(c.get(Calendar.DAY_OF_MONTH));
+        pm.setYear(c.get(Calendar.YEAR));
+        pm.setDays(DayCounter(c));
         return pm;
     }
 
-    private static int NumeroDeDias(Calendar c) {
-        if (ehBissexto(c.get(Calendar.YEAR))) {
+    private static int DayCounter(Calendar c) {
+        if (isLeapYear(c.get(Calendar.YEAR))) {
             if (c.get(Calendar.MONTH) == 3
                     || c.get(Calendar.MONTH) == 5
                     || c.get(Calendar.MONTH) == 8
@@ -76,7 +76,7 @@ public abstract class CalendarioLogicalTier {
         }
     }
 
-    private static boolean ehBissexto(int ano) {
+    private static boolean isLeapYear(int ano) {
         return ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0));
     }
 }

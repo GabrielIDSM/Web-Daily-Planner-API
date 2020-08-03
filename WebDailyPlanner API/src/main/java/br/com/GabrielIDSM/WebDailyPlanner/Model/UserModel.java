@@ -2,38 +2,47 @@ package br.com.GabrielIDSM.WebDailyPlanner.Model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class UsuarioModel implements Serializable{
-    //Atributos
-    
+@Table(name = "WDP_Users")
+public class UserModel implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ID;
+    @Column(unique = true)
+    private String Email;
     @NotEmpty
-    private String Nome;
+    private String Name;
     @NotEmpty
-    private String Senha;
-    
-    //Construtor padrao
+    private String Password;
 
-    public UsuarioModel(Integer Login, String Nome, String Senha) {
+    public UserModel(Integer ID, String Email, String Name, String Password) {
+        this.ID = ID;
+        this.Email = Email;
+        this.Name = Name;
+        this.Password = Password;
+    }
+
+    public UserModel(Integer Login, String Name, String Password) {
         this.ID = Login;
-        this.Nome = Nome;
-        this.Senha = Senha;
+        this.Name = Name;
+        this.Password = Password;
     }
 
-    public UsuarioModel(String Nome, String Senha) {
-        this.Nome = Nome;
-        this.Senha = Senha;
+    public UserModel(String Name, String Password) {
+        this.Name = Name;
+        this.Password = Password;
     }
     
-    public UsuarioModel() {
+    public UserModel() {
     }
     
     
@@ -57,7 +66,7 @@ public class UsuarioModel implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final UsuarioModel other = (UsuarioModel) obj;
+        final UserModel other = (UserModel) obj;
         if (!Objects.equals(this.ID, other.ID)) {
             return false;
         }
@@ -74,20 +83,28 @@ public class UsuarioModel implements Serializable{
         this.ID = ID;
     }
 
-    public String getNome() {
-        return Nome;
+    public String getName() {
+        return Name;
     }
 
-    public void setNome(String Nome) {
-        this.Nome = Nome;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
-    public String getSenha() {
-        return Senha;
+    public String getPassword() {
+        return Password;
     }
 
-    public void setSenha(String Senha) {
-        this.Senha = Senha;
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
     
 }
