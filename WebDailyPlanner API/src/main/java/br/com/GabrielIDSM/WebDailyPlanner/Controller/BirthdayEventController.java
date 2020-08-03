@@ -1,6 +1,7 @@
 package br.com.GabrielIDSM.WebDailyPlanner.Controller;
 
 import br.com.GabrielIDSM.WebDailyPlanner.Error.ResourceNotFoundException;
+import br.com.GabrielIDSM.WebDailyPlanner.LogicalTier.Events;
 import br.com.GabrielIDSM.WebDailyPlanner.LogicalTier.Users;
 import br.com.GabrielIDSM.WebDailyPlanner.Model.BirthdayModel;
 import br.com.GabrielIDSM.WebDailyPlanner.Model.UserModel;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.BirthdayRepository;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.UserRepository;
+import br.com.GabrielIDSM.WebDailyPlanner.RequestModel.BirthdayRequestModel;
 
 @RestController
 @RequestMapping("birthday")
@@ -26,19 +28,21 @@ public class BirthdayEventController {
     final private UserRepository UsersRepository;
 
     @Autowired
-    public BirthdayEventController(BirthdayRepository e, UserRepository u){
-        this.EventsRepository = e;
-        this.UsersRepository = u;
+    public BirthdayEventController(BirthdayRepository E, UserRepository U){
+        this.EventsRepository = E;
+        this.UsersRepository = U;
     }
 
     @PostMapping
-    public ResponseEntity<?> Save(@Valid @RequestBody BirthdayModel event){
+    public ResponseEntity<?> Save(@Valid @RequestBody BirthdayRequestModel request){
+        BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
  
     @PutMapping
-    public ResponseEntity<?> Update(@Valid @RequestBody BirthdayModel event){
+    public ResponseEntity<?> Update(@Valid @RequestBody BirthdayRequestModel request){
+        BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
     }

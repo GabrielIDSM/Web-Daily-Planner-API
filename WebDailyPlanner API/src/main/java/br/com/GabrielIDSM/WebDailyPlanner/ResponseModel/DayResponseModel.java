@@ -1,28 +1,26 @@
 package br.com.GabrielIDSM.WebDailyPlanner.ResponseModel;
 
-import br.com.GabrielIDSM.WebDailyPlanner.Model.BirthdayModel;
-import br.com.GabrielIDSM.WebDailyPlanner.Model.GenericModel;
 import java.io.Serializable;
 import java.util.List;
 
 public class DayResponseModel implements Serializable{
 
-    List<GenericModel> GenericEvents;
-    List<BirthdayModel> BirthdayEvents;
+    List<GenericResponseModel> GenericEvents;
+    List<BirthdayResponseModel> BirthdayEvents;
 
-    public List<GenericModel> getGenericEvents() {
+    public List<GenericResponseModel> getGenericEvents() {
         return GenericEvents;
     }
 
-    public void setGenericEvents(List<GenericModel> GenericEvents) {
+    public void setGenericEvents(List<GenericResponseModel> GenericEvents) {
         this.GenericEvents = GenericEvents;
     }
 
-    public List<BirthdayModel> getBirthdayEvents() {
+    public List<BirthdayResponseModel> getBirthdayEvents() {
         return BirthdayEvents;
     }
 
-    public void setBirthdayEvents(List<BirthdayModel> BirthdayEvents) {
+    public void setBirthdayEvents(List<BirthdayResponseModel> BirthdayEvents) {
         this.BirthdayEvents = BirthdayEvents;
     }
     

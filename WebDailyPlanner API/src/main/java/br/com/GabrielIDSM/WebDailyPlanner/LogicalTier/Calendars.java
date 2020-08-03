@@ -3,7 +3,7 @@ package br.com.GabrielIDSM.WebDailyPlanner.LogicalTier;
 import br.com.GabrielIDSM.WebDailyPlanner.ResponseModel.CalendaryResponseModel;
 import java.util.Calendar;
 
-public abstract class CalendaryLogicalTier {
+public abstract class Calendars {
 
     public static CalendaryResponseModel defineFirstMonth() {
         CalendaryResponseModel pm = new CalendaryResponseModel();

@@ -1,7 +1,7 @@
 package br.com.GabrielIDSM.WebDailyPlanner.Controller;
 
 import br.com.GabrielIDSM.WebDailyPlanner.Error.ResourceNotFoundException;
-import br.com.GabrielIDSM.WebDailyPlanner.LogicalTier.DayLogicalTier;
+import br.com.GabrielIDSM.WebDailyPlanner.LogicalTier.Days;
 import br.com.GabrielIDSM.WebDailyPlanner.LogicalTier.Users;
 import br.com.GabrielIDSM.WebDailyPlanner.Model.BirthdayModel;
 import br.com.GabrielIDSM.WebDailyPlanner.Model.GenericModel;
@@ -37,22 +37,22 @@ public class DayController {
     }
 
     @PostMapping(path = "daybyuser")
-    public ResponseEntity<?> getDayByUser (@RequestBody DayRequestModel diaRequest){
-        if(!Users.isUserWithEncoder(diaRequest, (List<UserModel>) UserRepository.findAll())) throw new ResourceNotFoundException("Usuario not found by id and senha");
-        List<GenericModel> eventosGenericos = GenericRepository.findByUser(Users.getUser(diaRequest, (List<UserModel>) UserRepository.findAll()));
-        List<BirthdayModel> eventosAniversarios = BirthdayRepository.findByUser(Users.getUser(diaRequest, (List<UserModel>) UserRepository.findAll()));
-        return new ResponseEntity<>(DayLogicalTier.DefineResponse(diaRequest.getDay(), eventosGenericos, eventosAniversarios), HttpStatus.OK);
+    public ResponseEntity<?> getDayByUser (@RequestBody DayRequestModel dayRequest){
+        if(!Users.isUserWithEncoder(dayRequest, (List<UserModel>) UserRepository.findAll())) throw new ResourceNotFoundException("Usuario not found by id and senha");
+        List<GenericModel> genericList = GenericRepository.findByUser(Users.getUser(dayRequest, (List<UserModel>) UserRepository.findAll()));
+        List<BirthdayModel> birthdayList = BirthdayRepository.findByUser(Users.getUser(dayRequest, (List<UserModel>) UserRepository.findAll()));
+        return new ResponseEntity<>(Days.DefineResponse(dayRequest.getDay(), genericList, birthdayList), HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<?> getAllByUser(@RequestBody IdRequestModel id){
         if(!Users.isUserWithEncoder(id, (List<UserModel>) UserRepository.findAll())) throw new ResourceNotFoundException("Usuario not found by id and senha");
-        List<GenericModel> eventosGenericos = GenericRepository.findByUser(Users.getUser(id, (List<UserModel>) UserRepository.findAll()));
-        List<BirthdayModel> eventosAniversarios = BirthdayRepository.findByUser(Users.getUser(id, (List<UserModel>) UserRepository.findAll()));
-        DayResponseModel diaResponse = new DayResponseModel();
-        diaResponse.setGenericEvents(eventosGenericos);
-        diaResponse.setBirthdayEvents(eventosAniversarios);
-        return new ResponseEntity<>(diaResponse, HttpStatus.OK);
+        List<GenericModel> genericList = GenericRepository.findByUser(Users.getUser(id, (List<UserModel>) UserRepository.findAll()));
+        List<BirthdayModel> birthdayList = BirthdayRepository.findByUser(Users.getUser(id, (List<UserModel>) UserRepository.findAll()));
+        DayResponseModel dayResponse = new DayResponseModel();
+        dayResponse.setGenericEvents(Days.convertIntoGenericResponseModel(genericList));
+        dayResponse.setBirthdayEvents(Days.convertIntoBirthdayResponseModel(birthdayList));
+        return new ResponseEntity<>(dayResponse, HttpStatus.OK);
     }
     
 }
