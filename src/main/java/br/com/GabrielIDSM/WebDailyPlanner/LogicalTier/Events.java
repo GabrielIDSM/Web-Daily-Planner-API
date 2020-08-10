@@ -9,19 +9,16 @@ import java.util.List;
 
 public abstract class Events {
     
+    public final static int MAX = 10;
+    
     public static BirthdayModel newBirthdayModel (BirthdayRequestModel request, List<UserModel> users){
         BirthdayModel response = new BirthdayModel();
         response.setID(request.getID());
         response.setTitle(request.getTitle());
         response.setDetails(request.getDetails());
         response.setDateOfTheDay(request.getDateOfTheDay());
-        for(UserModel u: users){
-            if(u.getEmail().equals(request.getEmail())){
-                response.setUser(u);
-                return response;
-            }
-        }
-        return null;
+        response.setUser(Users.getUser(request, users));
+        return response;
     }
     
     public static GenericModel newGenericModel (GenericRequestModel request, List<UserModel> users){
@@ -30,12 +27,8 @@ public abstract class Events {
         response.setTitle(request.getTitle());
         response.setDetails(request.getDetails());
         response.setDateOfTheDay(request.getDateOfTheDay());
-        for(UserModel u: users){
-            if(u.getEmail().equals(request.getEmail())){
-                response.setUser(u);
-                return response;
-            }
-        }
-        return null;
+        response.setUser(Users.getUser(request, users));
+        return response;
     }
+    
 }

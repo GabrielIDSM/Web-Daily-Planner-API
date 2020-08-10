@@ -24,26 +24,34 @@ import br.com.GabrielIDSM.WebDailyPlanner.RequestModel.GenericRequestModel;
 @RequestMapping("generic")
 public class GenericEventController {
 
-    final private GenericRepository EventRepository;
+    final private GenericRepository EventsRepository;
     final private UserRepository UsersRepository;
 
     @Autowired
     public GenericEventController(GenericRepository E, UserRepository U) {
-        this.EventRepository = E;
+        this.EventsRepository = E;
         this.UsersRepository = U;
     }
 
     @PostMapping
     public ResponseEntity<?> Save(@Valid @RequestBody GenericRequestModel request) {
+        if (!Users.isUserWithEncoder(request, (List<UserModel>) UsersRepository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<GenericModel> list = EventsRepository.findByUser(Users.getUser(request, (List<UserModel>) UsersRepository.findAll()));
+        if(list.size() > Events.MAX) throw new ResourceNotFoundException("Limit reached");
         GenericModel event = Events.newGenericModel(request, (List<UserModel>) UsersRepository.findAll());
-        EventRepository.save(event);
+        EventsRepository.save(event);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<?> Update(@Valid @RequestBody GenericRequestModel request) {
+        if (!Users.isUserWithEncoder(request, (List<UserModel>) UsersRepository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         GenericModel event = Events.newGenericModel(request, (List<UserModel>) UsersRepository.findAll());
-        EventRepository.save(event);
+        EventsRepository.save(event);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -52,11 +60,11 @@ public class GenericEventController {
         if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
             throw new ResourceNotFoundException("User not found by id and password");
         }
-        GenericModel event = EventRepository.findOne(id.getEvent());
+        GenericModel event = EventsRepository.findOne(id.getEvent());
         if (event == null) {
             throw new ResourceNotFoundException("Event not found by id:" + id.getEvent());
         } else {
-            EventRepository.delete(event);
+            EventsRepository.delete(event);
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
@@ -66,7 +74,7 @@ public class GenericEventController {
         if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
             throw new ResourceNotFoundException("User not found by id and password");
         }
-        GenericModel event = EventRepository.findOne(id.getEvent());
+        GenericModel event = EventsRepository.findOne(id.getEvent());
         if (event == null) {
             throw new ResourceNotFoundException("Event not found by id: " + id.getEvent());
         } else {

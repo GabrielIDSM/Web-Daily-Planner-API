@@ -2,9 +2,12 @@ package br.com.GabrielIDSM.WebDailyPlanner.LogicalTier;
 
 import br.com.GabrielIDSM.WebDailyPlanner.ResponseModel.CalendaryResponseModel;
 import java.util.Calendar;
+import java.util.Date;
 
 public abstract class Calendars {
 
+    private static final int OLD = 3;
+    
     public static CalendaryResponseModel defineFirstMonth() {
         CalendaryResponseModel pm = new CalendaryResponseModel();
         Calendar c = Calendar.getInstance();
@@ -78,5 +81,11 @@ public abstract class Calendars {
 
     private static boolean isLeapYear(int ano) {
         return ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0));
+    }
+    
+    public static boolean isEventOld (Date data){
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MONTH, -OLD);
+        return data.before(now.getTime());
     }
 }

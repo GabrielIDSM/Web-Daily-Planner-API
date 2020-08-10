@@ -35,6 +35,11 @@ public class BirthdayEventController {
 
     @PostMapping
     public ResponseEntity<?> Save(@Valid @RequestBody BirthdayRequestModel request) {
+        if (!Users.isUserWithEncoder(request, (List<UserModel>) UsersRepository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<BirthdayModel> list = EventsRepository.findByUser(Users.getUser(request, (List<UserModel>) UsersRepository.findAll()));
+        if(list.size() > Events.MAX) throw new ResourceNotFoundException("Limit reached");
         BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
@@ -42,6 +47,9 @@ public class BirthdayEventController {
 
     @PutMapping
     public ResponseEntity<?> Update(@Valid @RequestBody BirthdayRequestModel request) {
+        if (!Users.isUserWithEncoder(request, (List<UserModel>) UsersRepository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
