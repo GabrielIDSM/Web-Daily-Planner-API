@@ -28,43 +28,50 @@ public class GenericEventController {
     final private UserRepository UsersRepository;
 
     @Autowired
-    public GenericEventController(GenericRepository E, UserRepository U){
+    public GenericEventController(GenericRepository E, UserRepository U) {
         this.EventRepository = E;
         this.UsersRepository = U;
     }
 
     @PostMapping
-    public ResponseEntity<?> Save(@Valid @RequestBody GenericRequestModel request){
+    public ResponseEntity<?> Save(@Valid @RequestBody GenericRequestModel request) {
         GenericModel event = Events.newGenericModel(request, (List<UserModel>) UsersRepository.findAll());
         EventRepository.save(event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<?> Update(@Valid @RequestBody GenericRequestModel request){
+    public ResponseEntity<?> Update(@Valid @RequestBody GenericRequestModel request) {
         GenericModel event = Events.newGenericModel(request, (List<UserModel>) UsersRepository.findAll());
         EventRepository.save(event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/delete")
-    public ResponseEntity<?> Delete(@RequestBody EventIdRequestModel id){
-        if(!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) throw new ResourceNotFoundException("User not found by id and password");
-        GenericModel evento = EventRepository.findOne(id.getEvent());
-        if(evento == null){
+    @PostMapping(path = "delete")
+    public ResponseEntity<?> Delete(@RequestBody EventIdRequestModel id) {
+        if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
+            throw new ResourceNotFoundException("User not found by id and password");
+        }
+        GenericModel event = EventRepository.findOne(id.getEvent());
+        if (event == null) {
             throw new ResourceNotFoundException("Event not found by id:" + id.getEvent());
-        }else{
-            EventRepository.delete(evento);
-            return new ResponseEntity<>(evento, HttpStatus.OK);
+        } else {
+            EventRepository.delete(event);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
-    @PostMapping(path = "/get")
-    public ResponseEntity<?> getEventByID(@RequestBody EventIdRequestModel id){
-        if(!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) throw new ResourceNotFoundException("User not found by id and password");
-        GenericModel evento = EventRepository.findOne(id.getEvent());
-        if(evento == null) throw new ResourceNotFoundException("Event not found by id: " + id.getEvent());
-        else return new ResponseEntity<>(evento, HttpStatus.OK);
+    @PostMapping(path = "get")
+    public ResponseEntity<?> getEventByID(@RequestBody EventIdRequestModel id) {
+        if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
+            throw new ResourceNotFoundException("User not found by id and password");
+        }
+        GenericModel event = EventRepository.findOne(id.getEvent());
+        if (event == null) {
+            throw new ResourceNotFoundException("Event not found by id: " + id.getEvent());
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 
 }

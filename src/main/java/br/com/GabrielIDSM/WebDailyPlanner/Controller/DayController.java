@@ -30,23 +30,27 @@ public class DayController {
     final private UserRepository UserRepository;
 
     @Autowired
-    public DayController(GenericRepository G, BirthdayRepository B, UserRepository U){
+    public DayController(GenericRepository G, BirthdayRepository B, UserRepository U) {
         this.GenericRepository = G;
         this.BirthdayRepository = B;
         this.UserRepository = U;
     }
 
     @PostMapping(path = "daybyuser")
-    public ResponseEntity<?> getDayByUser (@RequestBody DayRequestModel dayRequest){
-        if(!Users.isUserWithEncoder(dayRequest, (List<UserModel>) UserRepository.findAll())) throw new ResourceNotFoundException("Usuario not found by id and senha");
+    public ResponseEntity<?> getDayByUser(@RequestBody DayRequestModel dayRequest) {
+        if (!Users.isUserWithEncoder(dayRequest, (List<UserModel>) UserRepository.findAll())) {
+            throw new ResourceNotFoundException("Users not found by id and password");
+        }
         List<GenericModel> genericList = GenericRepository.findByUser(Users.getUser(dayRequest, (List<UserModel>) UserRepository.findAll()));
         List<BirthdayModel> birthdayList = BirthdayRepository.findByUser(Users.getUser(dayRequest, (List<UserModel>) UserRepository.findAll()));
         return new ResponseEntity<>(Days.DefineResponse(dayRequest.getDay(), genericList, birthdayList), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<?> getAllByUser(@RequestBody IdRequestModel id){
-        if(!Users.isUserWithEncoder(id, (List<UserModel>) UserRepository.findAll())) throw new ResourceNotFoundException("Usuario not found by id and senha");
+    public ResponseEntity<?> getAllDaysByUser(@RequestBody IdRequestModel id) {
+        if (!Users.isUserWithEncoder(id, (List<UserModel>) UserRepository.findAll())) {
+            throw new ResourceNotFoundException("Users not found by id and password");
+        }
         List<GenericModel> genericList = GenericRepository.findByUser(Users.getUser(id, (List<UserModel>) UserRepository.findAll()));
         List<BirthdayModel> birthdayList = BirthdayRepository.findByUser(Users.getUser(id, (List<UserModel>) UserRepository.findAll()));
         DayResponseModel dayResponse = new DayResponseModel();
@@ -54,5 +58,5 @@ public class DayController {
         dayResponse.setBirthdayEvents(Days.convertIntoBirthdayResponseModel(birthdayList));
         return new ResponseEntity<>(dayResponse, HttpStatus.OK);
     }
-    
+
 }

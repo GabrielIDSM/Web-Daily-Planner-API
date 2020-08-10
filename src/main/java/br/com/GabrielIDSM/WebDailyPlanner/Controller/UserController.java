@@ -17,25 +17,39 @@ import br.com.GabrielIDSM.WebDailyPlanner.Repository.UserRepository;
 @RestController
 @RequestMapping("user")
 public class UserController {
-
+    
     final private UserRepository repository;
-
+    
     @Autowired
-    public UserController(UserRepository repository){
+    public UserController(UserRepository repository) {
         this.repository = repository;
     }
-
+    
     @PostMapping
-    public ResponseEntity<?> Save(@Valid @RequestBody UserModel user){
-        if(Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> Save(@Valid @RequestBody UserModel user) {
+        if (Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         user = Users.newUser(user);
         repository.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    
+    @PostMapping(path = "delete")
+    public ResponseEntity<?> Delete(@Valid @RequestBody IdRequestModel user) {
+        if (!Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        UserModel userModel = Users.getUser(user, (List<UserModel>) repository.findAll());
+        repository.delete(userModel);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
     @PostMapping(path = "login")
-    public ResponseEntity<?> isUser (@Valid @RequestBody IdRequestModel user){
-        if(Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> isUser(@Valid @RequestBody IdRequestModel user) {
+        if (Users.isUserWithEncoder(user, (List<UserModel>) repository.findAll())) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     

@@ -5,6 +5,7 @@ import java.util.Date;
 public abstract class EventResponseModel {
     
     private Integer Id;
+    private String Title;
     private String Details;
     private Date DateOfTheDay;
 
@@ -14,6 +15,14 @@ public abstract class EventResponseModel {
 
     public void setId(Integer id) {
         this.Id = id;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String Title) {
+        this.Title = Title;
     }
 
     public String getDetails() {

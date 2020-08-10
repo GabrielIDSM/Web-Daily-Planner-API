@@ -28,43 +28,50 @@ public class BirthdayEventController {
     final private UserRepository UsersRepository;
 
     @Autowired
-    public BirthdayEventController(BirthdayRepository E, UserRepository U){
+    public BirthdayEventController(BirthdayRepository E, UserRepository U) {
         this.EventsRepository = E;
         this.UsersRepository = U;
     }
 
     @PostMapping
-    public ResponseEntity<?> Save(@Valid @RequestBody BirthdayRequestModel request){
-        BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
-        EventsRepository.save(event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
-    }
- 
-    @PutMapping
-    public ResponseEntity<?> Update(@Valid @RequestBody BirthdayRequestModel request){
+    public ResponseEntity<?> Save(@Valid @RequestBody BirthdayRequestModel request) {
         BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
         return new ResponseEntity<>(event, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/delete")
-    public ResponseEntity<?> Delete(@RequestBody EventIdRequestModel id){
-        if(!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) throw new ResourceNotFoundException("User not found by id and password");
-        BirthdayModel evento = EventsRepository.findOne(id.getEvent());
-        if(evento == null){
+    @PutMapping
+    public ResponseEntity<?> Update(@Valid @RequestBody BirthdayRequestModel request) {
+        BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
+        EventsRepository.save(event);
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "delete")
+    public ResponseEntity<?> Delete(@RequestBody EventIdRequestModel id) {
+        if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
+            throw new ResourceNotFoundException("User not found by id and password");
+        }
+        BirthdayModel event = EventsRepository.findOne(id.getEvent());
+        if (event == null) {
             throw new ResourceNotFoundException("Event not found by id:" + id.getEvent());
-        }else{
-            EventsRepository.delete(evento);
-            return new ResponseEntity<>(evento, HttpStatus.OK);
+        } else {
+            EventsRepository.delete(event);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
-    @PostMapping(path = "/get")
-    public ResponseEntity<?> getEventoByID(@RequestBody EventIdRequestModel id){
-        if(!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) throw new ResourceNotFoundException("User not found by id and password");
-        BirthdayModel evento = EventsRepository.findOne(id.getEvent());
-        if(evento == null) throw new ResourceNotFoundException("Evento not found by id: " + id.getEvent());
-        else return new ResponseEntity<>(evento, HttpStatus.OK);
+    @PostMapping(path = "get")
+    public ResponseEntity<?> getEventoByID(@RequestBody EventIdRequestModel id) {
+        if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
+            throw new ResourceNotFoundException("User not found by id and password");
+        }
+        BirthdayModel event = EventsRepository.findOne(id.getEvent());
+        if (event == null) {
+            throw new ResourceNotFoundException("Evento not found by id: " + id.getEvent());
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
-    
+
 }
