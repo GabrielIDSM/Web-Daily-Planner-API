@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.BirthdayRepository;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.GenericRepository;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.UserRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 @RequestMapping("day")
 public class DayController {

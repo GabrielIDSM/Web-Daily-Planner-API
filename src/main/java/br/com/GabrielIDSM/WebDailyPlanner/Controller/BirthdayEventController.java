@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.BirthdayRepository;
 import br.com.GabrielIDSM.WebDailyPlanner.Repository.UserRepository;
 import br.com.GabrielIDSM.WebDailyPlanner.RequestModel.BirthdayRequestModel;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 @RequestMapping("birthday")
 public class BirthdayEventController {
@@ -60,7 +62,7 @@ public class BirthdayEventController {
         if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
             throw new ResourceNotFoundException("User not found by id and password");
         }
-        BirthdayModel event = EventsRepository.findOne(id.getEvent());
+        BirthdayModel event = EventsRepository.findById(id.getEvent()).orElse(null);
         if (event == null) {
             throw new ResourceNotFoundException("Event not found by id:" + id.getEvent());
         } else {
@@ -74,7 +76,7 @@ public class BirthdayEventController {
         if (!Users.isUserWithEncoder(id, (List<UserModel>) UsersRepository.findAll())) {
             throw new ResourceNotFoundException("User not found by id and password");
         }
-        BirthdayModel event = EventsRepository.findOne(id.getEvent());
+        BirthdayModel event = EventsRepository.findById(id.getEvent()).orElse(null);
         if (event == null) {
             throw new ResourceNotFoundException("Evento not found by id: " + id.getEvent());
         } else {
