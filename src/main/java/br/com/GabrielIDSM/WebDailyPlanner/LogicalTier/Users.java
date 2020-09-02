@@ -18,7 +18,7 @@ public abstract class Users {
         try {
             for (UserModel u : users) {
                 if (Objects.equals(u.getEmail(), user.getEmail())
-                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(user.getPassword()))) {
+                        && PASSWORD_ENCODER.matches(user.getPassword(), u.getPassword())) {
                     return true;
                 }
             }
@@ -30,14 +30,9 @@ public abstract class Users {
 
     public static boolean isUserWithEncoder(IdRequestModel user, List<UserModel> users) {
         try {
-            System.out.println("Email: " + user.getEmail());
-            System.out.println("Password: " + PASSWORD_ENCODER.encode(user.getPassword()));
-            System.out.println("---------------------------------------------------------");
             for (UserModel u : users) {
-                System.out.println("Email: " + u.getEmail());
-                System.out.println("Password: " + u.getPassword());
                 if (Objects.equals(u.getEmail(), user.getEmail())
-                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(user.getPassword()))) {
+                        && PASSWORD_ENCODER.matches(user.getPassword(), u.getPassword())) {
                     return true;
                 }
             }
@@ -51,7 +46,7 @@ public abstract class Users {
         try {
             for (UserModel u : users) {
                 if (Objects.equals(u.getEmail(), user.getEmail())
-                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(user.getPassword()))) {
+                        && PASSWORD_ENCODER.matches(user.getPassword(), u.getPassword())) {
                     return true;
                 }
             }
@@ -65,7 +60,7 @@ public abstract class Users {
         try {
             for (UserModel u : users) {
                 if (Objects.equals(u.getEmail(), user.getEmail())
-                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(user.getPassword()))) {
+                        && PASSWORD_ENCODER.matches(user.getPassword(), u.getPassword())) {
                     return true;
                 }
             }
@@ -79,7 +74,7 @@ public abstract class Users {
         try {
             for (UserModel u : users) {
                 if (Objects.equals(u.getEmail(), user.getEmail())
-                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(user.getPassword()))) {
+                        && PASSWORD_ENCODER.matches(user.getPassword(), u.getPassword())) {
                     return true;
                 }
             }
@@ -93,7 +88,7 @@ public abstract class Users {
         try {
             for (UserModel u : users) {
                 if (Objects.equals(u.getEmail(), user.getEmail())
-                        && Objects.equals(u.getPassword(), PASSWORD_ENCODER.encode(user.getPassword()))) {
+                        && PASSWORD_ENCODER.matches(user.getPassword(), u.getPassword())) {
                     return true;
                 }
             }
