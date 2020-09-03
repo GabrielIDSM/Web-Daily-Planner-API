@@ -44,7 +44,7 @@ public class BirthdayEventController {
         if(list.size() > Events.MAX) throw new ResourceNotFoundException("Limit reached");
         BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
@@ -54,7 +54,7 @@ public class BirthdayEventController {
         }
         BirthdayModel event = Events.newBirthdayModel(request, (List<UserModel>) UsersRepository.findAll());
         EventsRepository.save(event);
-        return new ResponseEntity<>(event, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(path = "delete")
